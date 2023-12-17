@@ -3,7 +3,7 @@
 保有する株式を管理するAPI
 
 ## API仕様書
-Stock_API仕様書は[こちら](https://kiki0911.github.io/Stock_API/)
+[Stock_API仕様書はこちら](https://kiki0911.github.io/Stock_API/)
 
 ## URL設計
 |HTTPメソッド|URL|処理内容|
