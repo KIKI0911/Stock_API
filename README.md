@@ -17,7 +17,7 @@ Stock_API仕様書は[こちら](https://kiki0911.github.io/Stock_API/)
 |カラム名(論理名)|カラム名（物理名）|型・桁|
 |---|---|---|
 |ID|id|int|
-|証券コード|symbol|varchar(255)|
+|証券コード|symbol|varchar(10)|
 |企業名|companyName|varchar(255)|
 |株式保有数|quantity|int|
 |取得価格|price|int|
