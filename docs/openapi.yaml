@@ -25,7 +25,7 @@ paths:
                   type: "object"
                   properties:
                     id:
-                      type: "integer"
+                      type: "Integer"
                       example: 1
                     symbol:
                       type: "Integer"
@@ -37,7 +37,7 @@ paths:
                       type: "Integer"
                       example: 100
                     price:
-                      type: "integer"
+                      type: "Integer"
                       example: 2000
     post:
       summary: "保有株式を登録"
@@ -72,7 +72,7 @@ paths:
                 type: "object"
                 properties:
                     message:
-                      type: "string"
+                      type: "String"
                       example: "successfully created"
 
         400:
@@ -83,19 +83,19 @@ paths:
                 type: "object"
                 properties:
                   message:
-                    type: "string"
+                    type: "String"
                     example: "stock already exists"
                   timestamp:
-                    type: "string"
+                    type: "String"
                     format: "date-time"
                   error:
-                    type: "string"
+                    type: "String"
                     example: "Bad Request"
                   path:
-                    type: "string"
+                    type: "String"
                     example: /user/7203
                   Status:
-                    type: "string"
+                    type: "String"
                     example: "400"
   /stocks/{symbol}:
     get:
@@ -120,7 +120,7 @@ paths:
                   type: "object"
                   properties:
                     symbol:
-                      type: "integer"
+                      type: "Integer"
                       example: 7203
                     companyName:
                       type: "String"
@@ -137,19 +137,19 @@ paths:
                   type: "object"
                   properties:
                     message:
-                      type: "string"
+                      type: "String"
                       example: "stock not found"
                     timestamp:
-                      type: "string"
+                      type: "String"
                       format: "date-time"
                     error:
-                      type: "string"
+                      type: "String"
                       example: "Not Found"
                     path:
-                      type: "string"
+                      type: "String"
                       example: /user/9999
                     Status:
-                      type: "string"
+                      type: "String"
                       example: "404"
     patch:
       tags:
@@ -161,7 +161,7 @@ paths:
           in: "path"
           description: "更新したい保有株式コード"
           schema:
-            type: "integer"
+            type: "Integer"
             example: "7203"
           required: true
         - name: "countryName"
@@ -175,14 +175,14 @@ paths:
           in: "path"
           description: "更新したい保有株式数"
           schema:
-            type: "integer"
+            type: "Integer"
             example: "200"
           required: true
         - name: "price"
           in: "path"
           description: "更新したい保有株式価格"
           schema:
-            type: "integer"
+            type: "Integer"
             example: "2001"
           required: true
       requestBody:
@@ -193,19 +193,19 @@ paths:
               type: "object"
               properties:
                 symbol:
-                  type: "integer"
+                  type: "Integer"
                   nullable: true
                   example: "7203"
                 companyName:
-                  type: "string"
+                  type: "String"
                   nullable: true
                   example: "toyota"
                 quantity:
-                  type: "integer"
+                  type: "Integer"
                   nullable: true
                   example: 200
                 price:
-                  type: "integer"
+                  type: "Integer"
                   nullable: true
                   example: 2001
       responses:
@@ -217,7 +217,7 @@ paths:
                 type: "object"
                 properties:
                   message:
-                    type: "string"
+                    type: "String"
                     example: "successfully updated"
         "404":
           description: "存在しないsymbolを入力した場合はNot Found"
@@ -227,19 +227,19 @@ paths:
                 type: "object"
                 properties:
                   message:
-                    type: "string"
+                    type: "String"
                     example: "stock not found"
                   timestamp:
-                    type: "string"
+                    type: "String"
                     format: "date-time"
                   error:
-                    type: "string"
+                    type: "String"
                     example: "Not Found"
                   path:
-                    type: "string"
+                    type: "String"
                     example: /user/9999
                   Status:
-                    type: "string"
+                    type: "String"
                     example: "404"
     delete:
       summary: "保有株式を削除"
@@ -249,7 +249,7 @@ paths:
           in: "path"
           description: "削除したい保有株式コード"
           schema:
-            type: "integer"
+            type: "Integer"
             example: "7203"
           required: true
       tags:
@@ -263,7 +263,7 @@ paths:
                 type: "object"
                 properties:
                   message:
-                    type: "string"
+                    type: "String"
                     example: "successfully deleted"
         '404':
           description: "存在しないsymbolを入力した場合はNot Found"
@@ -273,17 +273,17 @@ paths:
                 type: "object"
                 properties:
                   message:
-                    type: "string"
+                    type: "String"
                     example: "stock not found"
                   timestamp:
-                    type: "string"
+                    type: "String"
                     format: "date-time"
                   error:
-                    type: "string"
+                    type: "String"
                     example: "Not Found"
                   path:
-                    type: "string"
+                    type: "String"
                     example: /user/9999
                   Status:
-                    type: "string"
+                    type: "String"
                     example: "404"
