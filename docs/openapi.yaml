@@ -25,7 +25,7 @@ paths:
                   type: "object"
                   properties:
                     id:
-                      type: "Integer"
+                      type: "int"
                       example: 1
                     symbol:
                       type: "Integer"
@@ -34,10 +34,10 @@ paths:
                       type: "String"
                       example: Toyota
                     quantity:
-                      type: "Integer"
+                      type: "int"
                       example: 100
                     price:
-                      type: "Integer"
+                      type: "int"
                       example: 2000
     post:
       summary: "保有株式を登録"
@@ -58,10 +58,10 @@ paths:
                   type: "String"
                   example: Yoshinoya
                 quantity:
-                  type: "Integer"
+                  type: "int"
                   example: 100
                 price:
-                  type: "Integer"
+                  type: "int"
                   example: 2000
       responses:
         201:
@@ -126,7 +126,7 @@ paths:
                       type: "String"
                       example: toyota
                     quantity:
-                      type: "Integer"
+                      type: "int"
                       example: 100
 
           "404":
@@ -175,14 +175,14 @@ paths:
           in: "path"
           description: "更新したい保有株式数"
           schema:
-            type: "Integer"
+            type: "int"
             example: "200"
-          required: true
+            required: true
         - name: "price"
           in: "path"
           description: "更新したい保有株式価格"
           schema:
-            type: "Integer"
+            type: "int"
             example: "2001"
           required: true
       requestBody:
@@ -201,11 +201,11 @@ paths:
                   nullable: true
                   example: "toyota"
                 quantity:
-                  type: "Integer"
+                  type: "int"
                   nullable: true
                   example: 200
                 price:
-                  type: "Integer"
+                  type: "int"
                   nullable: true
                   example: 2001
       responses:
