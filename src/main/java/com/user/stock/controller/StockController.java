@@ -28,7 +28,7 @@ public class StockController {
     }
 
     @GetMapping("/{symbol}")
-    public ResponseEntity<Stocks> findCertainStock(@PathVariable("symbol") Integer symbol) {
+    public ResponseEntity<Stocks> findStock(@PathVariable("symbol") Integer symbol) {
         Stocks stocks = stockService.findCertainStock(symbol);
         return ResponseEntity.ok(stocks);
     }
