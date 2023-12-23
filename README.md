@@ -4,8 +4,7 @@
 
 
 ## 概略図
-
-![スクリーンショット 2023-12-23 午後12 01 12](https://github.com/KIKI0911/Stock_API/assets/148507850/84357024-4b06-4f7d-8847-a26520a672e9)
+![Stock_API_Application](https://github.com/KIKI0911/Stock_API/assets/148507850/713451e9-e744-41b4-a098-277a2a96c6e4)
 
 
 ## API仕様書
