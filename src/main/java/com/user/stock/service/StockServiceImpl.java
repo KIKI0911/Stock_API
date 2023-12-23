@@ -24,7 +24,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public Stocks findCertainStock(Integer symbol){
+    public Stocks findStockBySymbol(Integer symbol){
         Optional<Stocks> stocks = stockMapper.findCertainStock(symbol);
         return stocks.orElseThrow(() -> new StockNotFoundException("Stock not found:" + symbol));
     }

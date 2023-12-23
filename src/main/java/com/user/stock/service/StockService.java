@@ -9,5 +9,5 @@ public interface StockService {
 
     List<Stocks> findAllStocks();
 
-    public Stocks findCertainStock(Integer symbol);
+    public Stocks findStockBySymbol(Integer symbol);
 }

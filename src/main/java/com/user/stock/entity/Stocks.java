@@ -8,9 +8,9 @@ import lombok.Getter;
 @Getter
 public class Stocks {
 
-    private int id;
+    private Integer id;
     private Integer symbol;
     private String companyName;
-    private int quantity;
-    private int price;
+    private Integer quantity;
+    private Integer price;
 }

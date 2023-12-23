@@ -28,8 +28,8 @@ public class StockController {
     }
 
     @GetMapping("/{symbol}")
-    public ResponseEntity<Stocks> findStock(@PathVariable("symbol") Integer symbol) {
-        Stocks stocks = stockService.findCertainStock(symbol);
+    public ResponseEntity<Stocks> findStockBySymbol(@PathVariable("symbol") Integer symbol) {
+        Stocks stocks = stockService.findStockBySymbol(symbol);
         return ResponseEntity.ok(stocks);
     }
 }
