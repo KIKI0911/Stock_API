@@ -2,6 +2,12 @@
 
 保有する株式を管理するAPI
 
+
+## 概略図
+
+![スクリーンショット 2023-12-23 午後12 01 12](https://github.com/KIKI0911/Stock_API/assets/148507850/84357024-4b06-4f7d-8847-a26520a672e9)
+
+
 ## API仕様書
 Stock_API仕様書は[こちら](https://kiki0911.github.io/Stock_API/)
 
