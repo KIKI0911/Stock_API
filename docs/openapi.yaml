@@ -1,0 +1,289 @@
+openapi: "3.0.0"
+info:
+  title: Stock_API仕様書
+  version: "0.0.2"
+  description: Stock_API仕様書です。
+tags:
+  - name: user
+    description: Stock_API
+
+paths:
+  /stocks/:
+    get:
+      summary: "保有株式一覧取得"
+      description: "現在保有している株式一覧を取得できる。"
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "int"
+                      example: 1
+                    symbol:
+                      type: "Integer"
+                      example: "7203"
+                    companyName:
+                      type: "String"
+                      example: Toyota
+                    quantity:
+                      type: "int"
+                      example: 100
+                    price:
+                      type: "int"
+                      example: 2000
+    post:
+      summary: "保有株式を登録"
+      description: "保有株式を登録する。"
+      tags:
+        - user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                symbol:
+                  type: "Integer"
+                  example: "9861"
+                companyName:
+                  type: "String"
+                  example: Yoshinoya
+                quantity:
+                  type: "int"
+                  example: 100
+                price:
+                  type: "int"
+                  example: 2000
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                    message:
+                      type: "String"
+                      example: "successfully created"
+
+        400:
+          description: "存在するsymbolを入力した場合はBad Request"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "String"
+                    example: "stock already exists"
+                  timestamp:
+                    type: "String"
+                    format: "date-time"
+                  error:
+                    type: "String"
+                    example: "Bad Request"
+                  path:
+                    type: "String"
+                    example: /user/7203
+                  Status:
+                    type: "String"
+                    example: "400"
+  /stocks/{symbol}:
+    get:
+      summary: "指定されたコードで保有株式を取得"
+      description: "指定されたコードで保有株式を取得する。"
+      tags:
+        - user
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          description: "取得対象の株式コード"
+          schema:
+            type: "Integer"
+            example: "7203"
+      responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    symbol:
+                      type: "Integer"
+                      example: 7203
+                    companyName:
+                      type: "String"
+                      example: toyota
+                    quantity:
+                      type: "int"
+                      example: 100
+
+          "404":
+            description: "存在しないsymbolを入力した場合はNot Found"
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    message:
+                      type: "String"
+                      example: "stock not found"
+                    timestamp:
+                      type: "String"
+                      format: "date-time"
+                    error:
+                      type: "String"
+                      example: "Not Found"
+                    path:
+                      type: "String"
+                      example: /user/9999
+                    Status:
+                      type: "String"
+                      example: "404"
+    patch:
+      tags:
+        - user
+      summary: "保有株式の更新"
+      description: "指定した保有株式を更新する"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          description: "更新したい保有株式コード"
+          schema:
+            type: "Integer"
+            example: "7203"
+          required: true
+        - name: "countryName"
+          in: "path"
+          description: "更新したい保有株式数"
+          schema:
+            type: "String"
+          example: "toyota"
+          required: true
+        - name: "quantity"
+          in: "path"
+          description: "更新したい保有株式数"
+          schema:
+            type: "int"
+            example: "200"
+            required: true
+        - name: "price"
+          in: "path"
+          description: "更新したい保有株式価格"
+          schema:
+            type: "int"
+            example: "2001"
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                symbol:
+                  type: "Integer"
+                  nullable: true
+                  example: "7203"
+                companyName:
+                  type: "String"
+                  nullable: true
+                  example: "toyota"
+                quantity:
+                  type: "int"
+                  nullable: true
+                  example: 200
+                price:
+                  type: "int"
+                  nullable: true
+                  example: 2001
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "String"
+                    example: "successfully updated"
+        "404":
+          description: "存在しないsymbolを入力した場合はNot Found"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "String"
+                    example: "stock not found"
+                  timestamp:
+                    type: "String"
+                    format: "date-time"
+                  error:
+                    type: "String"
+                    example: "Not Found"
+                  path:
+                    type: "String"
+                    example: /user/9999
+                  Status:
+                    type: "String"
+                    example: "404"
+    delete:
+      summary: "保有株式を削除"
+      description: "保有株式を削除"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          description: "削除したい保有株式コード"
+          schema:
+            type: "Integer"
+            example: "7203"
+          required: true
+      tags:
+        - user
+      responses:
+        200:
+          description: "Deleted"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "String"
+                    example: "successfully deleted"
+        '404':
+          description: "存在しないsymbolを入力した場合はNot Found"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "String"
+                    example: "stock not found"
+                  timestamp:
+                    type: "String"
+                    format: "date-time"
+                  error:
+                    type: "String"
+                    example: "Not Found"
+                  path:
+                    type: "String"
+                    example: /user/9999
+                  Status:
+                    type: "String"
+                    example: "404"
