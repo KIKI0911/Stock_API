@@ -2,6 +2,7 @@ package com.user.stock.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 @AllArgsConstructor

@@ -1,7 +1,10 @@
 package com.user.stock.mapper;
 
+import com.user.stock.controller.StockRequest;
 import com.user.stock.entity.Stocks;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -16,5 +19,9 @@ public interface StockMapper {
     List<Stocks> findAllStocks();
 
     @Select("SELECT * FROM stocks WHERE symbol = #{symbol}")
-    Optional<Stocks> findCertainStock(Integer symbol);
+    Optional<Stocks> findStockBySymbol(Integer symbol);
+
+    @Insert("INSERT INTO stocks (symbol, companyName, quantity, price) VALUES (#{symbol}, #{companyName}, #{quantity}, #{price})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insertedStock(Stocks stocks);
 }
