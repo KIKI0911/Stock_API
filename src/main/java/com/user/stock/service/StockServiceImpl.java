@@ -33,13 +33,13 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public Stocks insertedStock(Integer symbol, String companyName, Integer quantity, Integer price) {
+    public Stocks insertStock(Integer symbol, String companyName, Integer quantity, Integer price) {
         Optional<Stocks> stockOptional = this.stockMapper.findStockBySymbol(symbol);
         if (stockOptional.isPresent()) {
             throw new StockAlreadyExistsException("Stock already exists");
         }
         Stocks stocks = new Stocks(null, symbol, companyName, quantity, price);
-        stockMapper.insertedStock(stocks);
+        stockMapper.insertStock(stocks);
         return stocks;
     }
 }

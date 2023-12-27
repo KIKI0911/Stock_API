@@ -12,6 +12,6 @@ public interface StockService {
 
     public Stocks findStockBySymbol(Integer symbol);
 
-    public Stocks insertedStock(Integer symbol, String companyName, Integer quantity, Integer price);
+    public Stocks insertStock(Integer symbol, String companyName, Integer quantity, Integer price);
 
 }

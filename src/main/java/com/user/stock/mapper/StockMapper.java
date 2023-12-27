@@ -23,5 +23,5 @@ public interface StockMapper {
 
     @Insert("INSERT INTO stocks (symbol, companyName, quantity, price) VALUES (#{symbol}, #{companyName}, #{quantity}, #{price})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void insertedStock(Stocks stocks);
+    void insertStock(Stocks stocks);
 }

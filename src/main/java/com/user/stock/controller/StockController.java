@@ -34,7 +34,7 @@ public class StockController {
 
     @PostMapping
     public ResponseEntity<StockResponse> insertStock(@RequestBody StockRequest stockRequest, UriComponentsBuilder uriBuilder) {
-        Stocks stocks = stockService.insertedStock(stockRequest.getSymbol(), stockRequest.getCompanyName(), stockRequest.getQuantity(), stockRequest.getPrice());
+        Stocks stocks = stockService.insertStock(stockRequest.getSymbol(), stockRequest.getCompanyName(), stockRequest.getQuantity(), stockRequest.getPrice());
         URI location = uriBuilder.path("/users").buildAndExpand(stocks.getId()).toUri();
         StockResponse body = new StockResponse("Stock created");
         return ResponseEntity.created(location).body(body);
