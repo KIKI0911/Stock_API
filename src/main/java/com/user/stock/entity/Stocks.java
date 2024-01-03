@@ -3,9 +3,11 @@ package com.user.stock.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
+@Setter
 public class Stocks {
 
     private Integer id;
@@ -13,4 +15,5 @@ public class Stocks {
     private String companyName;
     private Integer quantity;
     private Integer price;
+
 }

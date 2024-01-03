@@ -1,11 +1,7 @@
 package com.user.stock.mapper;
 
-import com.user.stock.controller.StockRequest;
 import com.user.stock.entity.Stocks;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,4 +20,7 @@ public interface StockMapper {
     @Insert("INSERT INTO stocks (symbol, companyName, quantity, price) VALUES (#{symbol}, #{companyName}, #{quantity}, #{price})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertStock(Stocks stocks);
+
+    @Update("UPDATE stocks SET companyName = #{companyName}, quantity = #{quantity}, price = #{price} WHERE symbol = #{symbol}")
+    int updateStock(Stocks existingStock);
 }

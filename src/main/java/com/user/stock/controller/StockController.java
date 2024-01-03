@@ -39,4 +39,12 @@ public class StockController {
         StockResponse body = new StockResponse("Stock created");
         return ResponseEntity.created(location).body(body);
     }
+
+    @PatchMapping("/{symbol}")
+    public ResponseEntity<StockResponse> updateStock(@PathVariable("symbol") Integer symbol, @RequestBody StockRequest stockRequest, UriComponentsBuilder uriBuilder) {
+        Stocks stocks = stockService.updateStock(symbol, stockRequest);
+        URI location = uriBuilder.path("/users/{symbol}").buildAndExpand(stocks.getSymbol()).toUri();
+        StockResponse body = new StockResponse("Stock updated");
+        return ResponseEntity.ok(body);
+    }
 }
