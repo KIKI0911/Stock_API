@@ -8,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Stocks {
+public class Stock {
 
     private Integer id;
     private Integer symbol;

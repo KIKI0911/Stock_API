@@ -4,7 +4,7 @@ import com.user.stock.controller.StockRequest;
 import com.user.stock.exception.StockAlreadyExistsException;
 import com.user.stock.mapper.StockMapper;
 import com.user.stock.exception.StockNotFoundException;
-import com.user.stock.entity.Stocks;
+import com.user.stock.entity.Stock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,43 +23,37 @@ public class StockServiceImpl implements StockService {
 
     //GET
     @Override
-    public List<Stocks> findAllStocks() {
+    public List<Stock> findAllStocks() {
         return stockMapper.findAllStocks();
     }
 
     @Override
-    public Stocks findStockBySymbol(Integer symbol) {
-        Optional<Stocks> stocks = stockMapper.findStockBySymbol(symbol);
+    public Stock findStockBySymbol(Integer symbol) {
+        Optional<Stock> stocks = stockMapper.findStockBySymbol(symbol);
         return stocks.orElseThrow(() -> new StockNotFoundException("Stock not found:" + symbol));
     }
 
     @Override
-    public Stocks insertStock(Integer symbol, String companyName, Integer quantity, Integer price) {
-        Optional<Stocks> stockOptional = this.stockMapper.findStockBySymbol(symbol);
+    public Stock insertStock(Integer symbol, String companyName, Integer quantity, Integer price) {
+        Optional<Stock> stockOptional = this.stockMapper.findStockBySymbol(symbol);
         if (stockOptional.isPresent()) {
             throw new StockAlreadyExistsException("Stock already exists");
         }
-        Stocks stocks = new Stocks(null, symbol, companyName, quantity, price);
-        stockMapper.insertStock(stocks);
-        return stocks;
+        Stock stock = new Stock(null, symbol, companyName, quantity, price);
+        stockMapper.insertStock(stock);
+        return stock;
     }
 
     @Override
-    public Stocks updateStock(Integer symbol, StockRequest stockRequest) {
-        Stocks existingStock = this.stockMapper.findStockBySymbol(symbol).orElseThrow(() -> new StockNotFoundException("Stock not found:" + symbol));
+    public Stock updateStock(Integer symbol, StockRequest stockRequest) {
+        Stock existingStock = this.stockMapper.findStockBySymbol(symbol).orElseThrow(() -> new StockNotFoundException("Stock not found:" + symbol));
 
         existingStock.setSymbol(stockRequest.getSymbol());
         existingStock.setCompanyName(stockRequest.getCompanyName());
         existingStock.setQuantity(stockRequest.getQuantity());
         existingStock.setPrice(stockRequest.getPrice());
 
-        int affectedRows = stockMapper.updateStock(existingStock);
-
-        if (affectedRows <= 0) {
-            // 更新が失敗した場合は例外をスローするか、エラーハンドリングを行う
-            throw new RuntimeException("Failed to update Stock");
-        }
-
+        stockMapper.updateStock(existingStock);
         return existingStock;
     }
 }

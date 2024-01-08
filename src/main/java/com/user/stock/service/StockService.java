@@ -2,17 +2,18 @@ package com.user.stock.service;
 
 
 import com.user.stock.controller.StockRequest;
-import com.user.stock.entity.Stocks;
+import com.user.stock.entity.Stock;
 
 import java.util.List;
 
 public interface StockService {
 
-    List<Stocks> findAllStocks();
+    List<Stock> findAllStocks();
 
-    public Stocks findStockBySymbol(Integer symbol);
+    public Stock findStockBySymbol(Integer symbol);
 
-    public Stocks insertStock(Integer symbol, String companyName, Integer quantity, Integer price);
+    public Stock insertStock(Integer symbol, String companyName, Integer quantity, Integer price);
 
-    public Stocks updateStock(Integer symbol, StockRequest stockRequest);
+    public Stock updateStock(Integer symbol, StockRequest stockRequest);
 }
+
