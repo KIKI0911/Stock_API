@@ -3,14 +3,17 @@ package com.user.stock.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
-public class Stocks {
+@Setter
+public class Stock {
 
     private Integer id;
     private Integer symbol;
     private String companyName;
     private Integer quantity;
     private Integer price;
+
 }

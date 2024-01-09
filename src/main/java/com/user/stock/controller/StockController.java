@@ -1,7 +1,7 @@
 package com.user.stock.controller;
 
 import com.user.stock.service.StockService;
-import com.user.stock.entity.Stocks;
+import com.user.stock.entity.Stock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,21 +22,29 @@ public class StockController {
     }
 
     @GetMapping
-    public List<Stocks> findAllStocks() {
+    public List<Stock> findAllStocks() {
         return stockService.findAllStocks();
     }
 
     @GetMapping("/{symbol}")
-    public ResponseEntity<Stocks> findStockBySymbol(@PathVariable("symbol") Integer symbol) {
-        Stocks stocks = stockService.findStockBySymbol(symbol);
-        return ResponseEntity.ok(stocks);
+    public ResponseEntity<Stock> findStockBySymbol(@PathVariable("symbol") Integer symbol) {
+        Stock stock = stockService.findStockBySymbol(symbol);
+        return ResponseEntity.ok(stock);
     }
 
     @PostMapping
     public ResponseEntity<StockResponse> insertStock(@RequestBody StockRequest stockRequest, UriComponentsBuilder uriBuilder) {
-        Stocks stocks = stockService.insertStock(stockRequest.getSymbol(), stockRequest.getCompanyName(), stockRequest.getQuantity(), stockRequest.getPrice());
-        URI location = uriBuilder.path("/users").buildAndExpand(stocks.getId()).toUri();
+        Stock stock = stockService.insertStock(stockRequest.getSymbol(), stockRequest.getCompanyName(), stockRequest.getQuantity(), stockRequest.getPrice());
+        URI location = uriBuilder.path("/users").buildAndExpand(stock.getId()).toUri();
         StockResponse body = new StockResponse("Stock created");
         return ResponseEntity.created(location).body(body);
+    }
+
+    @PatchMapping("/{symbol}")
+    public ResponseEntity<StockResponse> updateStock(@PathVariable("symbol") Integer symbol, @RequestBody StockRequest stockRequest, UriComponentsBuilder uriBuilder) {
+        Stock stock = stockService.updateStock(symbol, stockRequest);
+        URI location = uriBuilder.path("/users/{symbol}").buildAndExpand(stock.getSymbol()).toUri();
+        StockResponse body = new StockResponse("Stock updated");
+        return ResponseEntity.ok(body);
     }
 }
