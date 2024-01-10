@@ -23,4 +23,7 @@ public interface StockMapper {
 
     @Update("UPDATE stocks SET companyName = #{companyName}, quantity = #{quantity}, price = #{price} WHERE symbol = #{symbol}")
     int updateStock(Stock existingStock);
+
+    @Delete("DELETE FROM stocks WHERE symbol = #{symbol}")
+    void deleteStock(Integer symbol);
 }
