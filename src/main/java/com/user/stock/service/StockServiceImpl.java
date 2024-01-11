@@ -1,6 +1,6 @@
 package com.user.stock.service;
 
-import com.user.stock.controller.StockRequest;
+import com.user.stock.controller.request.StockRequest;
 import com.user.stock.exception.StockAlreadyExistsException;
 import com.user.stock.mapper.StockMapper;
 import com.user.stock.exception.StockNotFoundException;
@@ -55,5 +55,13 @@ public class StockServiceImpl implements StockService {
 
         stockMapper.updateStock(existingStock);
         return existingStock;
+    }
+
+    @Override
+    public Stock deleteStock(Integer symbol) {
+
+        Stock stock = this.stockMapper.findStockBySymbol(symbol).orElseThrow(() -> new StockNotFoundException("Stock not found:" + symbol));
+        stockMapper.deleteStock(symbol);
+        return stock;
     }
 }

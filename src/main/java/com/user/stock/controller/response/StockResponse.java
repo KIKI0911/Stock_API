@@ -1,4 +1,4 @@
-package com.user.stock.controller;
+package com.user.stock.controller.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
