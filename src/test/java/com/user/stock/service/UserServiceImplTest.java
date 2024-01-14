@@ -1,6 +1,7 @@
 package com.user.stock.service;
 
 import com.user.stock.entity.Stock;
+import com.user.stock.exception.StockAlreadyExistsException;
 import com.user.stock.exception.StockNotFoundException;
 import com.user.stock.mapper.StockMapper;
 import org.junit.jupiter.api.Test;
@@ -59,5 +60,22 @@ public class UserServiceImplTest {
             stockServiceImpl.findStockBySymbol(7000);
         });
         verify(stockMapper, times(1)).findStockBySymbol(7000);
+    }
+
+    @Test
+    public void 正常に新規の株式が登録できること() {
+        Stock stock = new Stock(null, 2897, "日清食品", 100, 5160);
+
+        doNothing().when(stockMapper).insertStock(stock);
+        assertThat(stockServiceImpl.insertStock(2897, "日清食品", 100, 5160)).isEqualTo(stock);
+        verify(stockMapper).insertStock(stock);
+    }
+
+    @Test
+    public void すでに存在する株式を登録する時にエラーが返されること() {
+        when(stockMapper.findStockBySymbol(7203)).thenReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640)));
+        assertThrows(StockAlreadyExistsException.class, () -> {
+            stockServiceImpl.insertStock(7203, "トヨタ自動車", 100, 2640);
+        });
     }
 }
