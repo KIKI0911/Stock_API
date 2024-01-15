@@ -1,8 +1,8 @@
 package com.user.stock.controller.request;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 
 @Getter
@@ -14,5 +14,6 @@ public class StockRequest {
     private String companyName;
     private Integer quantity;
     private Integer price;
+
 
 }
