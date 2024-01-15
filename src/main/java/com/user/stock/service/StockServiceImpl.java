@@ -46,12 +46,28 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public Stock updateStock(Integer symbol, StockRequest stockRequest) {
-        Stock existingStock = this.stockMapper.findStockBySymbol(symbol).orElseThrow(() -> new StockNotFoundException("Stock not found:" + symbol));
+        Stock existingStock = this.stockMapper.findStockBySymbol(symbol)
+                .orElseThrow(() -> new StockNotFoundException("Stock not found:" + symbol));
 
-        existingStock.setSymbol(stockRequest.getSymbol());
-        existingStock.setCompanyName(stockRequest.getCompanyName());
-        existingStock.setQuantity(stockRequest.getQuantity());
-        existingStock.setPrice(stockRequest.getPrice());
+        // シンボルが null でない場合、新しいシンボルで更新
+        if (stockRequest.getSymbol() != null) {
+            existingStock.setSymbol(stockRequest.getSymbol());
+        }
+
+        // 会社名が null でない場合、新しい会社名で更新
+        if (stockRequest.getCompanyName() != null) {
+            existingStock.setCompanyName(stockRequest.getCompanyName());
+        }
+
+        // 数量が null でない場合、新しい数量で更新
+        if (stockRequest.getQuantity() != null) {
+            existingStock.setQuantity(stockRequest.getQuantity());
+        }
+
+        // 価格が null でない場合、新しい価格で更新
+        if (stockRequest.getPrice() != null) {
+            existingStock.setPrice(stockRequest.getPrice());
+        }
 
         stockMapper.updateStock(existingStock);
         return existingStock;
