@@ -30,4 +30,5 @@ public class Stock {
     public int hashCode() {
         return Objects.hash(id, symbol, companyName, quantity, price);
     }
+
 }
