@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -50,22 +51,22 @@ public class StockServiceImpl implements StockService {
                 .orElseThrow(() -> new StockNotFoundException("Stock not found:" + symbol));
 
         // シンボルが null でない場合、新しいシンボルで更新
-        if (stockRequest.getSymbol() != null) {
+        if (Objects.nonNull(stockRequest.getSymbol())) {
             existingStock.setSymbol(stockRequest.getSymbol());
         }
 
         // 会社名が null でない場合、新しい会社名で更新
-        if (stockRequest.getCompanyName() != null) {
+        if (Objects.nonNull(stockRequest.getCompanyName())) {
             existingStock.setCompanyName(stockRequest.getCompanyName());
         }
 
         // 数量が null でない場合、新しい数量で更新
-        if (stockRequest.getQuantity() != null) {
+        if (Objects.nonNull(stockRequest.getQuantity())) {
             existingStock.setQuantity(stockRequest.getQuantity());
         }
 
         // 価格が null でない場合、新しい価格で更新
-        if (stockRequest.getPrice() != null) {
+        if (Objects.nonNull(stockRequest.getPrice())) {
             existingStock.setPrice(stockRequest.getPrice());
         }
 
