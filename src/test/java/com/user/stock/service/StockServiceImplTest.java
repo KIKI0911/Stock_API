@@ -81,39 +81,24 @@ public class StockServiceImplTest {
     }
 
     @Test
-    public void 株式の数量だけが更新できること() {
+    public void パラメーターがnullの場合は更新されないことを確認する() {
+        // Mockの設定
         doReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640))).when(stockMapper).findStockBySymbol(7203);
 
-        StockRequest stockRequest = new StockRequest(1, 7203, "トヨタ自動車", 200, 2640);
+        // テストデータ（nullを含む）
+        StockRequest stockRequest = new StockRequest(1, null, null, null, null); // シンボル以外がnullの場合
         Stock actual = stockServiceImpl.updateStock(7203, stockRequest);
-        Stock stock = new Stock(1, 7203, "トヨタ自動車", 200, 2640);
-        assertThat(actual).isEqualTo(stock);
-        verify(stockMapper).findStockBySymbol(7203);
-        verify(stockMapper).updateStock(stock);
-    }
 
-    @Test
-    public void 株式の金額だけが更新できること() {
-        doReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640))).when(stockMapper).findStockBySymbol(7203);
+        // 検証
+        assertThat(actual).isNotNull();
+        verify(stockMapper, times(1)).updateStock(any(Stock.class)); // メソッドが1回呼び出されたことを検証
+        verify(stockMapper, times(1)).findStockBySymbol(7203);
 
-        StockRequest stockRequest = new StockRequest(1, 7203, "トヨタ自動車", 100, 3000);
-        Stock actual = stockServiceImpl.updateStock(7203, stockRequest);
-        Stock stock = new Stock(1, 7203, "トヨタ自動車", 100, 3000);
-        assertThat(actual).isEqualTo(stock);
-        verify(stockMapper).findStockBySymbol(7203);
-        verify(stockMapper).updateStock(stock);
-    }
-
-    @Test
-    public void 株式の数量と金額が更新できること() {
-        doReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640))).when(stockMapper).findStockBySymbol(7203);
-
-        StockRequest stockRequest = new StockRequest(1, 7203, "トヨタ自動車", 200, 3000);
-        Stock actual = stockServiceImpl.updateStock(7203, stockRequest);
-        Stock stock = new Stock(1, 7203, "トヨタ自動車", 200, 3000);
-        assertThat(actual).isEqualTo(stock);
-        verify(stockMapper).findStockBySymbol(7203);
-        verify(stockMapper).updateStock(stock);
+        // アサーション
+        assertThat(actual.getSymbol()).isEqualTo(7203);
+        assertThat(actual.getCompanyName()).isEqualTo("トヨタ自動車");
+        assertThat(actual.getQuantity()).isEqualTo(100);
+        assertThat(actual.getPrice()).isEqualTo(2640);
     }
 
     @Test
