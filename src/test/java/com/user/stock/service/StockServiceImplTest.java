@@ -102,6 +102,27 @@ public class StockServiceImplTest {
     }
 
     @Test
+    public void パラメーターがnullでない場合は正しく更新されることを確認する() {
+        // Mockの設定
+        doReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640))).when(stockMapper).findStockBySymbol(7203);
+
+        // テストデータ（null以外の値を含む）
+        StockRequest stockRequest = new StockRequest(1, 7203, "トヨタ自動車", 150, 3000);
+        Stock actual = stockServiceImpl.updateStock(7203, stockRequest);
+
+        // 検証
+        assertThat(actual).isNotNull();
+        verify(stockMapper, times(1)).updateStock(any(Stock.class)); // メソッドが1回呼び出されたことを検証
+        verify(stockMapper, times(1)).findStockBySymbol(7203);
+
+        // アサーション
+        assertThat(actual.getSymbol()).isEqualTo(7203);
+        assertThat(actual.getCompanyName()).isEqualTo("トヨタ自動車");
+        assertThat(actual.getQuantity()).isEqualTo(150);
+        assertThat(actual.getPrice()).isEqualTo(3000);
+    }
+
+    @Test
     public void 存在しない株式の更新時にエラーが返されること() {
         // モックの設定: findStockBySymbolが存在しない株式を返すように設定
         when(stockMapper.findStockBySymbol(3863)).thenReturn(Optional.empty());
