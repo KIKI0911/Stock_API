@@ -107,7 +107,7 @@ public class StockServiceImplTest {
         doReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640))).when(stockMapper).findStockBySymbol(7203);
 
         // テストデータ（null以外の値を含む）
-        StockRequest stockRequest = new StockRequest(1, 7203, "トヨタ自動車", 150, 3000);
+        StockRequest stockRequest = new StockRequest(1, 8766, "東京海上", 150, 3000); // 異なる値を与える
         Stock actual = stockServiceImpl.updateStock(7203, stockRequest);
 
         // 検証
@@ -116,8 +116,8 @@ public class StockServiceImplTest {
         verify(stockMapper, times(1)).findStockBySymbol(7203);
 
         // アサーション
-        assertThat(actual.getSymbol()).isEqualTo(7203);
-        assertThat(actual.getCompanyName()).isEqualTo("トヨタ自動車");
+        assertThat(actual.getSymbol()).isEqualTo(8766);
+        assertThat(actual.getCompanyName()).isEqualTo("東京海上"); // 与えた値が反映されていることを確認
         assertThat(actual.getQuantity()).isEqualTo(150);
         assertThat(actual.getPrice()).isEqualTo(3000);
     }
