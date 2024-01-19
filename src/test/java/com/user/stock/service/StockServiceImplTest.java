@@ -1,5 +1,6 @@
 package com.user.stock.service;
 
+import com.user.stock.controller.request.StockRequest;
 import com.user.stock.entity.Stock;
 import com.user.stock.exception.StockAlreadyExistsException;
 import com.user.stock.exception.StockNotFoundException;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplTest {
+public class StockServiceImplTest {
 
     @InjectMocks
     StockServiceImpl stockServiceImpl;
@@ -76,6 +77,59 @@ public class UserServiceImplTest {
         when(stockMapper.findStockBySymbol(7203)).thenReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640)));
         assertThrows(StockAlreadyExistsException.class, () -> {
             stockServiceImpl.insertStock(7203, "トヨタ自動車", 100, 2640);
+        });
+    }
+
+    @Test
+    public void パラメーターがnullの場合は更新されないことを確認する() {
+        // Mockの設定
+        doReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640))).when(stockMapper).findStockBySymbol(7203);
+
+        // テストデータ（nullを含む）
+        StockRequest stockRequest = new StockRequest(1, null, null, null, null); // シンボル以外がnullの場合
+        Stock actual = stockServiceImpl.updateStock(7203, stockRequest);
+
+        // 検証
+        assertThat(actual).isNotNull();
+        verify(stockMapper, times(1)).updateStock(any(Stock.class)); // メソッドが1回呼び出されたことを検証
+        verify(stockMapper, times(1)).findStockBySymbol(7203);
+
+        // アサーション
+        assertThat(actual.getSymbol()).isEqualTo(7203);
+        assertThat(actual.getCompanyName()).isEqualTo("トヨタ自動車");
+        assertThat(actual.getQuantity()).isEqualTo(100);
+        assertThat(actual.getPrice()).isEqualTo(2640);
+    }
+
+    @Test
+    public void パラメーターがnullでない場合は正しく更新されることを確認する() {
+        // Mockの設定
+        doReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640))).when(stockMapper).findStockBySymbol(7203);
+
+        // テストデータ（null以外の値を含む）
+        StockRequest stockRequest = new StockRequest(1, 8766, "東京海上", 150, 3000); // 異なる値を与える
+        Stock actual = stockServiceImpl.updateStock(7203, stockRequest);
+
+        // 検証
+        assertThat(actual).isNotNull();
+        verify(stockMapper, times(1)).updateStock(any(Stock.class)); // メソッドが1回呼び出されたことを検証
+        verify(stockMapper, times(1)).findStockBySymbol(7203);
+
+        // アサーション
+        assertThat(actual.getSymbol()).isEqualTo(8766);
+        assertThat(actual.getCompanyName()).isEqualTo("東京海上"); // 与えた値が反映されていることを確認
+        assertThat(actual.getQuantity()).isEqualTo(150);
+        assertThat(actual.getPrice()).isEqualTo(3000);
+    }
+
+    @Test
+    public void 存在しない株式の更新時にエラーが返されること() {
+        // モックの設定: findStockBySymbolが存在しない株式を返すように設定
+        when(stockMapper.findStockBySymbol(3863)).thenReturn(Optional.empty());
+
+        // 期待される例外をアサート
+        assertThrows(StockNotFoundException.class, () -> {
+            stockServiceImpl.updateStock(3863, new StockRequest(1, 7203, "トヨタ自動車", 100, 2640));
         });
     }
 }
