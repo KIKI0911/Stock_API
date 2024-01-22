@@ -135,6 +135,7 @@ public class StockServiceImplTest {
 
     @Test
     public void 存在するシンボルを指定して削除できること() {
+        doNothing().when(stockMapper).deleteStock(7203);
         doReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640))).when(stockMapper).findStockBySymbol(7203);
         stockServiceImpl.deleteStock(7203);
         verify(stockMapper).findStockBySymbol(7203);
@@ -148,5 +149,6 @@ public class StockServiceImplTest {
             stockServiceImpl.deleteStock(9999);
         }, "指定された株式が見つかりません");
         verify(stockMapper).findStockBySymbol(9999);
+        verify(stockMapper, never()).deleteStock(9999);
     }
 }
