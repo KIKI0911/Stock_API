@@ -132,4 +132,23 @@ public class StockServiceImplTest {
             stockServiceImpl.updateStock(3863, new StockRequest(1, 7203, "トヨタ自動車", 100, 2640));
         });
     }
+
+    @Test
+    public void 存在するシンボルを指定して削除できること() {
+        doNothing().when(stockMapper).deleteStock(7203);
+        doReturn(Optional.of(new Stock(1, 7203, "トヨタ自動車", 100, 2640))).when(stockMapper).findStockBySymbol(7203);
+        stockServiceImpl.deleteStock(7203);
+        verify(stockMapper).findStockBySymbol(7203);
+        verify(stockMapper).deleteStock(7203);
+    }
+
+    @Test
+    public void 存在しないシンボルを指定した時にエラーが返ること() {
+        doReturn(Optional.empty()).when(stockMapper).findStockBySymbol(9999);
+        assertThrows(StockNotFoundException.class, () -> {
+            stockServiceImpl.deleteStock(9999);
+        }, "指定された株式が見つかりません");
+        verify(stockMapper).findStockBySymbol(9999);
+        verify(stockMapper, never()).deleteStock(9999);
+    }
 }
