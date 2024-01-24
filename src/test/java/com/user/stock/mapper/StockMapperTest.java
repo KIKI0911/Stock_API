@@ -31,7 +31,7 @@ public class StockMapperTest {
         List<Stock> stocks = stockMapper.findAllStocks();
         assertThat(stocks)
                 .hasSize(4)
-                .contains(
+                .containsExactlyInAnyOrder(
                         new Stock(1,7203,"トヨタ自動車",100, 2640),
                         new Stock(2,9861, "吉野家ホールディングス",100, 3131),
                         new Stock(3,3197, "スカイラークホールディングス", 100, 2059),
