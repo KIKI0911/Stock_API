@@ -55,7 +55,6 @@ public class StockMapperTest {
         Optional<Stock> stock = stockMapper.findStockBySymbol(9999);
         assertThat(stock).isEmpty();
     }
-
     @Test
     @DataSet(value = "datasets/stocks.yml")
     @ExpectedDataSet(value = "datasets/insertStockTest.yml", ignoreCols = "id")
