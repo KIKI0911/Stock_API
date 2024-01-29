@@ -123,7 +123,7 @@ public class StockServiceImplTest {
     }
 
     @Test
-    public void 存在しない株式の更新時にエラーが返されること() {
+    public void 存在しない株式の更新がされないこと() {
         // モックの設定: findStockBySymbolが存在しない株式を返すように設定
         when(stockMapper.findStockBySymbol(3863)).thenReturn(Optional.empty());
 
