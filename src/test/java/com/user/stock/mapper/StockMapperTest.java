@@ -66,10 +66,10 @@ public class StockMapperTest {
 
     @Test
     @DataSet(value = "datasets/stocks.yml")
-    @ExpectedDataSet("datasets/updateStockTestQuantity.yml")
+    @ExpectedDataSet("datasets/updateStockTest.yml")
     @Transactional
     public void パラメーターがnullでない場合は正しく更新されることを確認する() {
-        Stock stock = new Stock(1, 7203, "トヨタ自動車", 500, 2640);
+        Stock stock = new Stock(1, 7203, "トヨタ自動車", 500, 3000);
         stockMapper.updateStock(stock);
     }
 
@@ -77,7 +77,7 @@ public class StockMapperTest {
     @DataSet(value = "datasets/stocks.yml")
     @ExpectedDataSet("datasets/stocks.yml")
     @Transactional
-    public void パラメーターがnullの場合は更新されないことを確認する() {
+    public void パラメーターがnullの場合に更新されないことを確認する() {
         Stock stock = new Stock(1, null, null, null, null);
         stockMapper.updateStock(stock);
     }
