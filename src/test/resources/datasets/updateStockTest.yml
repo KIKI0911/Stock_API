@@ -1,0 +1,21 @@
+stocks:
+  - id: 1
+    symbol: 7203
+    companyName: "トヨタ自動車"
+    quantity: 500
+    price: 3000
+  - id: 2
+    symbol: 9861
+    companyName: "吉野家ホールディングス"
+    quantity: 100
+    price: 3131
+  - id: 3
+    symbol: 3197
+    companyName: "スカイラークホールディングス"
+    quantity: 100
+    price: 2059
+  - id: 4
+    symbol: 9101
+    companyName: "日本郵船"
+    quantity: 100
+    price: 4333
