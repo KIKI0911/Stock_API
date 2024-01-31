@@ -2,6 +2,7 @@ package com.user.stock.mapper;
 
 
 import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import com.user.stock.entity.Stock;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -53,5 +53,22 @@ public class StockMapperTest {
     void 存在しないシンボルを指定する場合に空の情報を獲得すること() {
         Optional<Stock> stock = stockMapper.findStockBySymbol(9999);
         assertThat(stock).isEmpty();
+    }
+
+    @Test
+    @DataSet(value = "datasets/stocks.yml")
+    @ExpectedDataSet(value = "datasets/insertStockTest.yml", ignoreCols = "id")
+    public void 正常に新規の株式が登録できること() {
+        Stock stock = new Stock(5, 2897, "日清食品", 100, 5160);
+        stockMapper.insertStock(stock);
+    }
+
+    @Test
+    @DataSet(value = "datasets/stocks.yml")
+    @ExpectedDataSet("datasets/updateStockTest.yml")
+    @Transactional
+    public void 存在する株式を更新できること() {
+        Stock stock = new Stock(1, 7203, "トヨタ自動車", 500, 3000);
+        stockMapper.updateStock(stock);
     }
 }
