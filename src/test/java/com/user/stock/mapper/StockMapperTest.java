@@ -27,15 +27,15 @@ public class StockMapperTest {
     @Test
     @DataSet(value = "datasets/stocks.yml")
     @Transactional
-    void すべての株式が取得できること () {
+    void すべての株式が取得できること() {
         List<Stock> stocks = stockMapper.findAllStocks();
         assertThat(stocks)
                 .hasSize(4)
                 .containsExactlyInAnyOrder(
-                        new Stock(1,7203,"トヨタ自動車",100, 2640),
-                        new Stock(2,9861, "吉野家ホールディングス",100, 3131),
-                        new Stock(3,3197, "スカイラークホールディングス", 100, 2059),
-                        new Stock(4,9101, "日本郵船",100, 4333));
+                        new Stock(1, 7203, "トヨタ自動車", 100, 2640),
+                        new Stock(2, 9861, "吉野家ホールディングス", 100, 3131),
+                        new Stock(3, 3197, "スカイラークホールディングス", 100, 2059),
+                        new Stock(4, 9101, "日本郵船", 100, 4333));
 
     }
 
@@ -44,7 +44,7 @@ public class StockMapperTest {
     @Transactional
     void 指定したシンボルの株式が取得できること() {
         assertThat(stockMapper.findStockBySymbol(7203))
-                .contains(new Stock(1,7203,"トヨタ自動車",100, 2640));
+                .contains(new Stock(1, 7203, "トヨタ自動車", 100, 2640));
     }
 
     @Test
@@ -71,4 +71,20 @@ public class StockMapperTest {
         Stock stock = new Stock(1, 7203, "トヨタ自動車", 500, 3000);
         stockMapper.updateStock(stock);
     }
+
+    @Test
+    @DataSet(value = "datasets/stocks.yml")
+    @ExpectedDataSet("datasets/deleteStockTest.yml")
+    @Transactional
+    public void 正常に株式を削除できること() {
+        stockMapper.deleteStock(7203);
+    }
+
+    @Test
+    @DataSet(value = "datasets/stocks.yml")
+    @Transactional
+    public void 指定したsymbolが存在しないとき株式が削除されないこと() {
+        stockMapper.deleteStock(9999);
+    }
+
 }
