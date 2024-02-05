@@ -159,6 +159,71 @@ public class StockRestApiIntegrationTest {
                 """, response, JSONCompareMode.STRICT);
     }
 
+
+    @Test
+    @DataSet(value = "datasets/stocks.yml")
+    @ExpectedDataSet(value = "datasets/updateTest.yml", ignoreCols = "id")
+    @Transactional
+    public void どれか一つだけnullではない場合その値だけが更新されていることを確認する() throws Exception {
+        Assertions.assertTrue(mockMvc.perform(MockMvcRequestBuilders.patch("/stocks/7203")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                    "id": null,
+                                    "symbol": null,
+                                    "companyName": null,
+                                    "quantity": 500,
+                                    "price": null
+                                }
+                            """))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString().contains("Stock updated"));
+        String response = mockMvc.perform(MockMvcRequestBuilders.get("/stocks/7203"))
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        JSONAssert.assertEquals("""
+                    
+            {
+                       "id": 1,
+                       "symbol": 7203,
+                       "companyName": "トヨタ自動車",
+                       "quantity": 500,
+                       "price": 2640
+                   }
+            """, response, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    @DataSet(value = "datasets/stocks.yml")
+    @ExpectedDataSet(value = "datasets/stocks.yml", ignoreCols = "id")
+    @Transactional
+    public void 全ての値がnullの場合更新されないことを確認する() throws Exception {
+        Assertions.assertTrue(mockMvc.perform(MockMvcRequestBuilders.patch("/stocks/7203")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "id": null,
+                                "symbol": null,
+                                "companyName": null,
+                                "quantity": null,
+                                "price": null
+                            }
+                            """))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString().contains("Stock updated"));
+        String response = mockMvc.perform(MockMvcRequestBuilders.get("/stocks/7203"))
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        JSONAssert.assertEquals("""
+                    
+            {
+                       "id": 1,
+                       "symbol": 7203,
+                       "companyName": "トヨタ自動車",
+                       "quantity": 100,
+                       "price": 2640
+                   }
+            """, response, JSONCompareMode.STRICT);
+    }
+
     @Test
     @DataSet(value = "datasets/stocks.yml")
     @Transactional
