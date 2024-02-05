@@ -168,28 +168,28 @@ public class StockRestApiIntegrationTest {
         Assertions.assertTrue(mockMvc.perform(MockMvcRequestBuilders.patch("/stocks/7203")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                            {
-                                    "id": null,
-                                    "symbol": null,
-                                    "companyName": null,
-                                    "quantity": 500,
-                                    "price": null
-                                }
-                            """))
+                                {
+                                        "id": null,
+                                        "symbol": null,
+                                        "companyName": null,
+                                        "quantity": 500,
+                                        "price": null
+                                    }
+                                """))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString().contains("Stock updated"));
         String response = mockMvc.perform(MockMvcRequestBuilders.get("/stocks/7203"))
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         JSONAssert.assertEquals("""
-                    
-            {
-                       "id": 1,
-                       "symbol": 7203,
-                       "companyName": "トヨタ自動車",
-                       "quantity": 500,
-                       "price": 2640
-                   }
-            """, response, JSONCompareMode.STRICT);
+                        
+                {
+                           "id": 1,
+                           "symbol": 7203,
+                           "companyName": "トヨタ自動車",
+                           "quantity": 500,
+                           "price": 2640
+                       }
+                """, response, JSONCompareMode.STRICT);
     }
 
     @Test
@@ -200,28 +200,28 @@ public class StockRestApiIntegrationTest {
         Assertions.assertTrue(mockMvc.perform(MockMvcRequestBuilders.patch("/stocks/7203")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                            {
-                                "id": null,
-                                "symbol": null,
-                                "companyName": null,
-                                "quantity": null,
-                                "price": null
-                            }
-                            """))
+                                {
+                                    "id": null,
+                                    "symbol": null,
+                                    "companyName": null,
+                                    "quantity": null,
+                                    "price": null
+                                }
+                                """))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString().contains("Stock updated"));
         String response = mockMvc.perform(MockMvcRequestBuilders.get("/stocks/7203"))
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         JSONAssert.assertEquals("""
-                    
-            {
-                       "id": 1,
-                       "symbol": 7203,
-                       "companyName": "トヨタ自動車",
-                       "quantity": 100,
-                       "price": 2640
-                   }
-            """, response, JSONCompareMode.STRICT);
+                        
+                {
+                           "id": 1,
+                           "symbol": 7203,
+                           "companyName": "トヨタ自動車",
+                           "quantity": 100,
+                           "price": 2640
+                       }
+                """, response, JSONCompareMode.STRICT);
     }
 
     @Test
@@ -242,4 +242,85 @@ public class StockRestApiIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andReturn().getResponse().getContentAsString().contains("Not Found"));
     }
+
+    @Test
+    @DataSet(value = "datasets/stocks.yml")
+    @ExpectedDataSet(value = "datasets/deleteStockTest.yml")
+    @Transactional
+    public void 存在する株式を削除しステータスコード200の確認と指定のメッセージを取得できること() throws Exception {
+        Assertions.assertTrue(mockMvc.perform(MockMvcRequestBuilders.delete("/stocks/7203"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString().contains("Stock deleted"));
+        String response = mockMvc.perform(MockMvcRequestBuilders.get("/stocks"))
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        JSONAssert.assertEquals("""
+                [
+                {
+                               "id": 2,
+                               "symbol": 9861,
+                               "companyName": "吉野家ホールディングス",
+                               "quantity": 100,
+                               "price": 3131
+                           },
+                           {
+                               "id": 3,
+                               "symbol": 3197,
+                               "companyName": "スカイラークホールディングス",
+                               "quantity": 100,
+                               "price": 2059
+                           },
+                           {
+                               "id": 4,
+                               "symbol": 9101,
+                               "companyName": "日本郵船",
+                               "quantity": 100,
+                               "price": 4333
+                           }
+                       ]
+                """, response, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    @DataSet(value ="datasets/stocks.yml")
+    @Transactional
+    public void 存在しない株式を削除しステータスコード404の確認とエラーメッセージを取得()throws Exception {
+        Assertions.assertTrue(mockMvc.perform(MockMvcRequestBuilders.delete("/stocks/9999"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andReturn().getResponse().getContentAsString().contains("Not Found"));
+        String response = mockMvc.perform(MockMvcRequestBuilders.get("/stocks"))
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        JSONAssert.assertEquals("""
+                [
+                    {
+                        "id": 1,
+                        "symbol": 7203,
+                        "companyName": "トヨタ自動車",
+                        "quantity": 100,
+                        "price": 2640
+                    },
+                    {
+                        "id": 2,
+                        "symbol": 9861,
+                        "companyName": "吉野家ホールディングス",
+                        "quantity": 100,
+                        "price": 3131
+                    },
+                    {
+                        "id": 3,
+                        "symbol": 3197,
+                        "companyName": "スカイラークホールディングス",
+                        "quantity": 100,
+                        "price": 2059
+                    },
+                    {
+                        "id": 4,
+                        "symbol": 9101,
+                        "companyName": "日本郵船",
+                        "quantity": 100,
+                        "price": 4333
+                    }
+                ]
+                 """, response, JSONCompareMode.STRICT);
+    }
+
 }
