@@ -12,21 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17 # JDK 21 はサポートされていないので JDK 17 を指定
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'adopt' # JDK の配布物を 'adopt' に変更
+          distribution: 'temurin'
 
-      # Docker コンテナを起動して MySQL サーバーをセットアップするための手順を追加する
       - name: Start MySQL Server
         run: docker-compose up -d
-        # この手順を追加する前に適切な docker-compose.yml ファイルを提供する必要があります
 
       - name: Setup Gradle
-        uses: gradle/setup-gradle@v4 # 最新のバージョンを使用する場合は '@v4' を削除
-        with:
-          gradle-version: '7.3.3' # 最新バージョンを使用する場合は '7.3.3' を削除
+        uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3.0.0
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
