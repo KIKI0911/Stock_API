@@ -24,7 +24,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: gradle build
-        run: |
-            chmod +x ./gradlew
-            ./gradlew build
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+            arguments: build
+            gradle-version: 8.5
