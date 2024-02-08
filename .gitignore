@@ -1,3 +1,6 @@
+.DS_Store
+.DS_Store?
+
 HELP.md
 .gradle
 build/
@@ -36,5 +39,3 @@ out/
 ### VS Code ###
 .vscode/
 
-.DS_Store
-.DS_Store?
