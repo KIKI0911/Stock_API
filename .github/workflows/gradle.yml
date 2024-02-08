@@ -12,23 +12,16 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-
-      - uses: actions/checkout@v3
-
-      - name: Docker Compose Up For Database
-        run: docker-compose up -d
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: chmod gradlew
-        working-directory: ./Stock_API
-        run: chmod +x gradlew
-
-      - name: build and test application
-        working-directory: ./Stock_API
-        run: ./gradlew build
+        - uses: actions/checkout@v4
+        - name: Docker Compose Up For Database
+          run: docker-compose up -d
+        - uses: actions/setup-java@v3
+          with:
+            java-version: '17'
+            distribution: 'temurin'
+        - name: Validate Gradle wrapper
+          uses: gradle/wrapper-validation-action@latest # 最新のバージョンに更新
+        - name: Build the Spring Boot application
+          run: ./gradlew bootJar # Spring Bootアプリケーションをビルドするタスクに変更
