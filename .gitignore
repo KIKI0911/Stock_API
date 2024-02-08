@@ -1,16 +1,16 @@
 HELP.md
 .gradle
-#build/
-#!gradle/wrapper/gradle-wrapper.jar
+build/
+!gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
 ### STS ###
 .apt_generated
-#.classpath
+.classpath
 .factorypath
-#.project
-#.settings
+.project
+.settings
 .springBeans
 .sts4-cache
 bin/
@@ -18,9 +18,9 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-#.idea
+.idea
 *.iws
-#*.iml
+*.iml
 *.ipr
 out/
 !**/src/main/**/out/
@@ -37,7 +37,7 @@ out/
 .vscode/
 ###################
 *.com
-#*.class
+*.class
 *.dll
 *.exe
 *.o
@@ -51,7 +51,7 @@ out/
 *.dmg
 *.gz
 *.iso
-#*.jar
+*.jar
 *.rar
 *.tar
 *.zip
